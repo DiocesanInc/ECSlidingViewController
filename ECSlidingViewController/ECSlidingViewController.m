@@ -82,7 +82,7 @@
     if (self) {
         [self setup];
     }
-    
+
     return self;
 }
 
@@ -91,7 +91,7 @@
     if (self) {
         [self setup];
     }
-    
+
     return self;
 }
 
@@ -100,7 +100,7 @@
     if (self) {
         self.topViewController = topViewController;
     }
-    
+
     return self;
 }
 
@@ -117,11 +117,11 @@
     if (self.topViewControllerStoryboardId) {
         self.topViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.topViewControllerStoryboardId];
     }
-    
+
     if (self.underLeftViewControllerStoryboardId) {
         self.underLeftViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.underLeftViewControllerStoryboardId];
     }
-    
+
     if (self.underRightViewControllerStoryboardId) {
         self.underRightViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.underRightViewControllerStoryboardId];
     }
@@ -138,7 +138,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.topViewController beginAppearanceTransition:YES animated:animated];
-    
+
     if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
         [self.underRightViewController beginAppearanceTransition:YES animated:animated];
     } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
@@ -149,7 +149,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.topViewController endAppearanceTransition];
-    
+
     if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
         [self.underRightViewController endAppearanceTransition];
     } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
@@ -160,7 +160,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.topViewController beginAppearanceTransition:NO animated:animated];
-    
+
     if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
         [self.underRightViewController beginAppearanceTransition:NO animated:animated];
     } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
@@ -171,7 +171,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.topViewController endAppearanceTransition];
-    
+
     if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredLeft) {
         [self.underRightViewController endAppearanceTransition];
     } else if (self.currentTopViewPosition == ECSlidingViewControllerTopViewPositionAnchoredRight) {
@@ -245,19 +245,19 @@
 
 - (void)setTopViewController:(UIViewController *)topViewController {
     UIViewController *oldTopViewController = _topViewController;
-    
+
     [oldTopViewController.view removeFromSuperview];
     [oldTopViewController willMoveToParentViewController:nil];
     [oldTopViewController beginAppearanceTransition:NO animated:NO];
     [oldTopViewController removeFromParentViewController];
     [oldTopViewController endAppearanceTransition];
-    
+
     _topViewController = topViewController;
-    
+
     if (_topViewController) {
         [self addChildViewController:_topViewController];
         [_topViewController didMoveToParentViewController:self];
-        
+
         if ([self isViewLoaded]) {
             [_topViewController beginAppearanceTransition:YES animated:NO];
             [self.view addSubview:_topViewController.view];
@@ -268,15 +268,15 @@
 
 - (void)setUnderLeftViewController:(UIViewController *)underLeftViewController {
     UIViewController *oldUnderLeftViewController = _underLeftViewController;
-    
+
     [oldUnderLeftViewController.view removeFromSuperview];
     [oldUnderLeftViewController willMoveToParentViewController:nil];
     [oldUnderLeftViewController beginAppearanceTransition:NO animated:NO];
     [oldUnderLeftViewController removeFromParentViewController];
     [oldUnderLeftViewController endAppearanceTransition];
-    
+
     _underLeftViewController = underLeftViewController;
-    
+
     if (_underLeftViewController) {
         [self addChildViewController:_underLeftViewController];
         [_underLeftViewController didMoveToParentViewController:self];
@@ -285,15 +285,15 @@
 
 - (void)setUnderRightViewController:(UIViewController *)underRightViewController {
     UIViewController *oldUnderRightViewController = _underRightViewController;
-    
+
     [oldUnderRightViewController.view removeFromSuperview];
     [oldUnderRightViewController willMoveToParentViewController:nil];
     [oldUnderRightViewController beginAppearanceTransition:NO animated:NO];
     [oldUnderRightViewController removeFromParentViewController];
     [oldUnderRightViewController endAppearanceTransition];
-    
+
     _underRightViewController = underRightViewController;
-    
+
     if (_underRightViewController) {
         [self addChildViewController:_underRightViewController];
         [_underRightViewController didMoveToParentViewController:self];
@@ -370,50 +370,50 @@
 
 - (ECSlidingAnimationController *)defaultAnimationController {
     if (_defaultAnimationController) return _defaultAnimationController;
-    
+
     _defaultAnimationController = [[ECSlidingAnimationController alloc] init];
-    
+
     return _defaultAnimationController;
 }
 
 - (ECSlidingInteractiveTransition *)defaultInteractiveTransition {
     if (_defaultInteractiveTransition) return _defaultInteractiveTransition;
-    
+
     _defaultInteractiveTransition = [[ECSlidingInteractiveTransition alloc] initWithSlidingViewController:self];
     _defaultInteractiveTransition.animationController = self.defaultAnimationController;
-    
+
     return _defaultInteractiveTransition;
 }
 
 - (UIView *)gestureView {
     if (_gestureView) return _gestureView;
-    
+
     _gestureView = [[UIView alloc] initWithFrame:CGRectZero];
-    
+
     return _gestureView;
 }
 
 - (NSMapTable *)customAnchoredGesturesViewMap {
     if (_customAnchoredGesturesViewMap) return _customAnchoredGesturesViewMap;
-    
+
     _customAnchoredGesturesViewMap = [NSMapTable mapTableWithKeyOptions:NSMapTableWeakMemory valueOptions:NSMapTableWeakMemory];
-    
+
     return _customAnchoredGesturesViewMap;
 }
 
 - (UITapGestureRecognizer *)resetTapGesture {
     if (_resetTapGesture) return _resetTapGesture;
-    
+
     _resetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resetTopViewAnimated:)];
-    
+
     return _resetTapGesture;
 }
 
 - (UIPanGestureRecognizer *)panGesture {
     if (_panGesture) return _panGesture;
-    
+
     _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(detectPanGestureRecognizer:)];
-    
+
     return _panGesture;
 }
 
@@ -457,20 +457,20 @@
     CGRect frameFromDelegate = [self frameFromDelegateForViewController:self.topViewController
                                                         topViewPosition:position];
     if (!CGRectIsInfinite(frameFromDelegate)) return frameFromDelegate;
-    
+
     CGRect containerViewFrame = self.view.bounds;
-    
+
     if (!(self.topViewController.edgesForExtendedLayout & UIRectEdgeTop)) {
         CGFloat topLayoutGuideLength = [self.topLayoutGuide length];
         containerViewFrame.origin.y     = topLayoutGuideLength;
         containerViewFrame.size.height -= topLayoutGuideLength;
     }
-    
+
     if (!(self.topViewController.edgesForExtendedLayout & UIRectEdgeBottom)) {
         CGFloat bottomLayoutGuideLength = [self.bottomLayoutGuide length];
         containerViewFrame.size.height -= bottomLayoutGuideLength;
     }
-    
+
     switch(position) {
         case ECSlidingViewControllerTopViewPositionCentered:
             return containerViewFrame;
@@ -489,24 +489,24 @@
     CGRect frameFromDelegate = [self frameFromDelegateForViewController:self.underLeftViewController
                                                         topViewPosition:position];
     if (!CGRectIsInfinite(frameFromDelegate)) return frameFromDelegate;
-    
+
     CGRect containerViewFrame = self.view.bounds;
-    
+
     if (!(self.underLeftViewController.edgesForExtendedLayout & UIRectEdgeTop)) {
         CGFloat topLayoutGuideLength    = [self.topLayoutGuide length];
         containerViewFrame.origin.y     = topLayoutGuideLength;
         containerViewFrame.size.height -= topLayoutGuideLength;
     }
-    
+
     if (!(self.underLeftViewController.edgesForExtendedLayout & UIRectEdgeBottom)) {
         CGFloat bottomLayoutGuideLength = [self.bottomLayoutGuide length];
         containerViewFrame.size.height -= bottomLayoutGuideLength;
     }
-    
+
     if (!(self.underLeftViewController.edgesForExtendedLayout & UIRectEdgeRight)) {
         containerViewFrame.size.width = self.anchorRightRevealAmount;
     }
-    
+
     return containerViewFrame;
 }
 
@@ -514,43 +514,43 @@
     CGRect frameFromDelegate = [self frameFromDelegateForViewController:self.underRightViewController
                                                         topViewPosition:position];
     if (!CGRectIsInfinite(frameFromDelegate)) return frameFromDelegate;
-    
+
     CGRect containerViewFrame = self.view.bounds;
-    
+
     if (!(self.underRightViewController.edgesForExtendedLayout & UIRectEdgeTop)) {
         CGFloat topLayoutGuideLength    = [self.topLayoutGuide length];
         containerViewFrame.origin.y     = topLayoutGuideLength;
         containerViewFrame.size.height -= topLayoutGuideLength;
     }
-    
+
     if (!(self.underRightViewController.edgesForExtendedLayout & UIRectEdgeBottom)) {
         CGFloat bottomLayoutGuideLength = [self.bottomLayoutGuide length];
         containerViewFrame.size.height -= bottomLayoutGuideLength;
     }
-    
+
     if (!(self.underRightViewController.edgesForExtendedLayout & UIRectEdgeLeft)) {
         containerViewFrame.origin.x   = self.anchorLeftPeekAmount;
         containerViewFrame.size.width = self.anchorLeftRevealAmount;
     }
-    
+
     return containerViewFrame;
 }
 
 - (CGRect)frameFromDelegateForViewController:(UIViewController *)viewController
                              topViewPosition:(ECSlidingViewControllerTopViewPosition)topViewPosition {
     CGRect frame = CGRectInfinite;
-    
+
     if ([(NSObject *)self.delegate respondsToSelector:@selector(slidingViewController:layoutControllerForTopViewPosition:)]) {
         id<ECSlidingViewControllerLayout> layoutController = [self.delegate slidingViewController:self
                                                                layoutControllerForTopViewPosition:topViewPosition];
-        
+
         if (layoutController) {
             frame = [layoutController slidingViewController:self
                                      frameForViewController:viewController
                                             topViewPosition:topViewPosition];
         }
     }
-    
+
     return frame;
 }
 
@@ -581,16 +581,16 @@
     if (self.transitionInProgress) return;
 
     self.view.userInteractionEnabled = NO;
-    
+
     self.transitionInProgress = YES;
-    
+
     self.currentOperation = operation;
-    
+
     if ([(NSObject *)self.delegate respondsToSelector:@selector(slidingViewController:animationControllerForOperation:topViewController:)]) {
         self.currentAnimationController = [self.delegate slidingViewController:self
                                                animationControllerForOperation:operation
                                                              topViewController:self.topViewController];
-        
+
         if ([(NSObject *)self.delegate respondsToSelector:@selector(slidingViewController:interactionControllerForAnimationController:)]) {
             self.currentInteractiveTransition = [self.delegate slidingViewController:self
                                          interactionControllerForAnimationController:self.currentAnimationController];
@@ -600,7 +600,7 @@
     } else {
         self.currentAnimationController = nil;
     }
-    
+
     if (self.currentAnimationController) {
         if (self.currentInteractiveTransition) {
             _isInteractive = YES;
@@ -610,17 +610,17 @@
         }
     } else {
         self.currentAnimationController = self.defaultAnimationController;
-        
+
         self.defaultInteractiveTransition.animationController = self.currentAnimationController;
         self.currentInteractiveTransition = self.defaultInteractiveTransition;
     }
-    
+
     [self beginAppearanceTransitionForOperation:operation];
-    
+
     [self.defaultAnimationController setValue:self.coordinatorAnimations forKey:@"coordinatorAnimations"];
     [self.defaultAnimationController setValue:self.coordinatorCompletion forKey:@"coordinatorCompletion"];
     [self.defaultInteractiveTransition setValue:self.coordinatorInteractionEnded forKey:@"coordinatorInteractionEnded"];
-    
+
     if ([self isInteractive]) {
         [self.currentInteractiveTransition startInteractiveTransition:self];
     } else {
@@ -637,14 +637,14 @@
         if (operation == ECSlidingViewControllerOperationAnchorLeft  && self.underRightViewController) return YES;
         if (operation == ECSlidingViewControllerOperationAnchorRight && self.underLeftViewController)  return YES;
     }
-    
+
     return NO;
 }
 
 - (void)beginAppearanceTransitionForOperation:(ECSlidingViewControllerOperation)operation {
     UIViewController *viewControllerWillAppear    = [self viewControllerWillAppearForSuccessfulOperation:operation];
     UIViewController *viewControllerWillDisappear = [self viewControllerWillDisappearForSuccessfulOperation:operation];
-    
+
     [viewControllerWillAppear    beginAppearanceTransition:YES animated:_isAnimated];
     [viewControllerWillDisappear beginAppearanceTransition:NO animated:_isAnimated];
 }
@@ -652,7 +652,7 @@
 - (void)endAppearanceTransitionForOperation:(ECSlidingViewControllerOperation)operation isCancelled:(BOOL)canceled {
     UIViewController *viewControllerWillAppear    = [self viewControllerWillAppearForSuccessfulOperation:operation];
     UIViewController *viewControllerWillDisappear = [self viewControllerWillDisappearForSuccessfulOperation:operation];
-    
+
     if (canceled) {
         [viewControllerWillDisappear beginAppearanceTransition:YES animated:_isAnimated];
         [viewControllerWillDisappear endAppearanceTransition];
@@ -666,25 +666,25 @@
 
 - (UIViewController *)viewControllerWillAppearForSuccessfulOperation:(ECSlidingViewControllerOperation)operation {
     UIViewController *viewControllerWillAppear = nil;
-    
+
     if (operation == ECSlidingViewControllerOperationAnchorLeft) {
         viewControllerWillAppear = self.underRightViewController;
     } else if (operation == ECSlidingViewControllerOperationAnchorRight) {
         viewControllerWillAppear = self.underLeftViewController;
     }
-    
+
     return viewControllerWillAppear;
 }
 
 - (UIViewController *)viewControllerWillDisappearForSuccessfulOperation:(ECSlidingViewControllerOperation)operation {
     UIViewController *viewControllerWillDisappear = nil;
-    
+
     if (operation == ECSlidingViewControllerOperationResetFromLeft) {
         viewControllerWillDisappear = self.underRightViewController;
     } else if (operation == ECSlidingViewControllerOperationResetFromRight) {
         viewControllerWillDisappear = self.underLeftViewController;
     }
-    
+
     return viewControllerWillDisappear;
 }
 
@@ -712,7 +712,7 @@
                 [self.gestureView addGestureRecognizer:self.resetTapGesture];
                 if (!self.gestureView.superview) [self.view insertSubview:self.gestureView aboveSubview:topView];
             }
-            
+
             if (self.topViewAnchoredGesture & ECSlidingViewControllerAnchoredGestureCustom) {
                 for (UIGestureRecognizer *gesture in self.customAnchoredGestures) {
                     if (![self.customAnchoredGesturesViewMap objectForKey:gesture]) {
@@ -750,7 +750,7 @@
         [self.view endEditing:YES];
         _isInteractive = YES;
     }
-    
+
     [self.defaultInteractiveTransition updateTopViewHorizontalCenterWithRecognizer:recognizer];
     _isInteractive = NO;
 }
@@ -813,11 +813,14 @@
 
 - (void)cancelInteractiveTransition {
     _transitionWasCancelled = YES;
+    // Reset all the animation and reset frame to the original position here in order to prevent flickering
+    [self.topViewController.view.layer removeAllAnimations];
+    self.topViewController.view.frame = [self initialFrameForViewController:self.topViewController];
 }
 
 - (void)completeTransition:(BOOL)didComplete {
     if (self.currentOperation == ECSlidingViewControllerOperationNone) return;
-    
+
     if ([self transitionWasCancelled]) {
         if (self.currentOperation == ECSlidingViewControllerOperationAnchorLeft) {
             _currentTopViewPosition = ECSlidingViewControllerTopViewPositionCentered;
@@ -839,17 +842,17 @@
             _currentTopViewPosition = ECSlidingViewControllerTopViewPositionCentered;
         }
     }
-    
+
     if ([self.currentAnimationController respondsToSelector:@selector(animationEnded:)]) {
         [self.currentAnimationController animationEnded:didComplete];
     }
-    
+
     if (self.animationComplete) self.animationComplete();
     self.animationComplete = nil;
-    
+
     [self updateTopViewGestures];
     [self endAppearanceTransitionForOperation:self.currentOperation isCancelled:[self transitionWasCancelled]];
-    
+
     _transitionWasCancelled          = NO;
     _isInteractive                   = NO;
     self.coordinatorAnimations       = nil;
@@ -871,7 +874,7 @@
     } else if ([key isEqualToString:ECTransitionContextUnderRightControllerKey]) {
         return self.underRightViewController;
     }
-    
+
     if (self.currentOperation == ECSlidingViewControllerOperationAnchorLeft) {
         if (key == UITransitionContextFromViewControllerKey) return self.topViewController;
         if (key == UITransitionContextToViewControllerKey)   return self.underRightViewController;
@@ -885,7 +888,7 @@
         if (key == UITransitionContextFromViewControllerKey) return self.underLeftViewController;
         if (key == UITransitionContextToViewControllerKey)   return self.topViewController;
     }
-    
+
     return nil;
 }
 
@@ -901,7 +904,7 @@
         if ([vc isEqual:self.topViewController])        return [self topViewCalculatedFrameForPosition:ECSlidingViewControllerTopViewPositionAnchoredRight];
         if ([vc isEqual:self.underLeftViewController])  return [self underLeftViewCalculatedFrameForTopViewPosition:ECSlidingViewControllerTopViewPositionAnchoredRight];
     }
-    
+
     return CGRectZero;
 }
 
@@ -917,7 +920,7 @@
     } else if (self.currentOperation == ECSlidingViewControllerOperationResetFromRight) {
         if (vc == self.topViewController) return [self topViewCalculatedFrameForPosition:ECSlidingViewControllerTopViewPositionCentered];
     }
-    
+
     return CGRectZero;
 }
 
